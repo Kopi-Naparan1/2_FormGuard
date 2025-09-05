@@ -27,6 +27,7 @@ a {
   --color-bg-lightest: #003566;
   --color-highlight: #ffd60a;
   --color-text: #ffc300;
+  --color-text-muted: #003566;
 
   --font-heading: "Poppins", sans-serif;
   --font-body: "Inter", sans-serif;

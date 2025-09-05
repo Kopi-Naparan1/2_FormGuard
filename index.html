@@ -2,10 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="description" content="Your page description here" />
+    <meta
+      name="description"
+      content="FormGuard – Secure and user-friendly form validation"
+    />
     <title>FormGuard</title>
+    <!-- CSS resets first, then main styles -->
     <link rel="stylesheet" href="./css/resets.css" />
     <link rel="stylesheet" href="./css/style.css" />
   </head>
@@ -15,32 +19,125 @@
     </header>
 
     <main>
-      <form>
-        <div class="form-group">
-          <label for="fullname">Fullname: </label
-          ><input type="text" name="fullname" required />
-        </div>
-        <div class="form-group">
-          <label for="email">Email: </label>
-          <input type="email" name="email" required />
-        </div>
-        <div class="form-group">
-          <label for="password">Password: </label
-          ><input type="password" name="password" required />
-        </div>
-        <div class="form-group">
-          <label for="confirmPassword">Confirm Password: </label
-          ><input type="password" name="confirmPassword" required />
-        </div>
-        <div class="send-button-class">
-          <button class="send-button" type="submit">Send</button>
-        </div>
+      <form
+        id="signupForm"
+        novalidate
+        method="post"
+        autocomplete="off"
+        aria-labelledby="formTitle"
+      >
+        <fieldset>
+          <legend id="formTitle" class="visually-hidden">Sign up form</legend>
+
+          <!-- Fullname -->
+          <div class="form-group">
+            <label for="fullname">Fullname</label>
+            <div class="input-row">
+              <input
+                id="fullname"
+                type="text"
+                name="fullname"
+                required
+                minlength="3"
+                autocomplete="name"
+                aria-describedby="fullnameHelp"
+              />
+              <span class="status" id="nameStatus" aria-hidden="true"></span>
+            </div>
+
+            <p id="fullnameHelp" class="form-help" role="alert"></p>
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label for="email">Email</label>
+            <div class="input-row">
+              <input
+                id="email"
+                type="email"
+                name="email"
+                required
+                inputmode="email"
+                autocomplete="email"
+                aria-describedby="emailHelp"
+              />
+              <span class="status" id="emailStatus" aria-hidden="true"></span>
+            </div>
+
+            <p id="emailHelp" class="form-help" role="alert"></p>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div>
+              <input
+                id="password"
+                type="password"
+                name="password"
+                required
+                minlength="8"
+                autocomplete="new-password"
+                aria-describedby="passwordHelp"
+              />
+              <span
+                class="status"
+                id="passwordStatus"
+                aria-hidden="true"
+              ></span>
+            </div>
+
+            <!-- Strength meter -->
+            <div class="pw-meter" aria-hidden="true">
+              <div class="pw-bar" id="pwBar"></div>
+            </div>
+            <p id="passwordHelp" class="form-help" role="alert"></p>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <div>
+              <input
+                id="confirmPassword"
+                type="password"
+                name="confirmPassword"
+                required
+                autocomplete="new-password"
+                aria-describedby="confirmHelp"
+              />
+              <span class="status" id="confirmStatus" aria-hidden="true"></span>
+            </div>
+
+            <p id="confirmHelp" class="form-help" role="alert"></p>
+          </div>
+
+          <!-- Submit -->
+          <div class="send-button-class">
+            <button class="send-button" id="submitBtn" type="submit" disabled>
+              Send
+            </button>
+          </div>
+        </fieldset>
       </form>
+
+      <section class="notes" aria-labelledby="notesTitle">
+        <h2 id="notesTitle" class="visually-hidden">Form rules</h2>
+        <strong>Notes:</strong>
+        <ul>
+          <li>Fullname: minimum 3 characters</li>
+          <li>Email: must match a valid format</li>
+          <li>
+            Password: minimum 8 characters, must include uppercase, lowercase,
+            and a number. Strength meter shows Weak → Strong.
+          </li>
+        </ul>
+      </section>
     </main>
 
     <footer>
       <p>&copy; 2025 Nyro. All rights reserved.</p>
-      <p class="version">version 1.0.? (Sep 3, 2025)</p>
+      <p class="version">Version 1.0.0 (Sep 3, 2025)</p>
     </footer>
 
     <script type="module" src="./js/main.js"></script>
