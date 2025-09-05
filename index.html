@@ -31,7 +31,11 @@
 
           <!-- Fullname -->
           <div class="form-group">
-            <label for="fullname">Fullname</label>
+            <div class="labels">
+              <label for="fullname">Fullname</label>
+              <span class="indicator nameIndicator" aria-hidden="true"></span>
+            </div>
+
             <div class="input-row">
               <input
                 id="fullname"
@@ -42,7 +46,6 @@
                 autocomplete="name"
                 aria-describedby="fullnameHelp"
               />
-              <span class="status" id="nameStatus" aria-hidden="true"></span>
             </div>
 
             <p id="fullnameHelp" class="form-help" role="alert"></p>
@@ -50,7 +53,11 @@
 
           <!-- Email -->
           <div class="form-group">
-            <label for="email">Email</label>
+            <div class="labels">
+              <label for="email">Email</label>
+              <span class="indicator emailIndicator" aria-hidden="true"></span>
+            </div>
+
             <div class="input-row">
               <input
                 id="email"
@@ -61,7 +68,6 @@
                 autocomplete="email"
                 aria-describedby="emailHelp"
               />
-              <span class="status" id="emailStatus" aria-hidden="true"></span>
             </div>
 
             <p id="emailHelp" class="form-help" role="alert"></p>
@@ -69,7 +75,14 @@
 
           <!-- Password -->
           <div class="form-group">
-            <label for="password">Password</label>
+            <div class="labels">
+              <label for="password">Password</label>
+              <span
+                class="indicator passwordIndicator"
+                aria-hidden="true"
+              ></span>
+            </div>
+
             <div>
               <input
                 id="password"
@@ -80,14 +93,10 @@
                 autocomplete="new-password"
                 aria-describedby="passwordHelp"
               />
-              <span
-                class="status"
-                id="passwordStatus"
-                aria-hidden="true"
-              ></span>
             </div>
 
             <!-- Strength meter -->
+
             <div class="pw-meter" aria-hidden="true">
               <div class="pw-bar" id="pwBar"></div>
             </div>
@@ -95,8 +104,16 @@
           </div>
 
           <!-- Confirm Password -->
+
           <div class="form-group">
-            <label for="confirmPassword">Confirm Password</label>
+            <div class="labels">
+              <label for="confirmPassword">Confirm Password</label>
+              <span
+                class="indicator confirmPasswordIndicator"
+                aria-hidden="true"
+              ></span>
+            </div>
+
             <div>
               <input
                 id="confirmPassword"
@@ -106,7 +123,6 @@
                 autocomplete="new-password"
                 aria-describedby="confirmHelp"
               />
-              <span class="status" id="confirmStatus" aria-hidden="true"></span>
             </div>
 
             <p id="confirmHelp" class="form-help" role="alert"></p>
@@ -123,14 +139,11 @@
 
       <section class="notes" aria-labelledby="notesTitle">
         <h2 id="notesTitle" class="visually-hidden">Form rules</h2>
-        <strong>Notes:</strong>
+        <strong class="notes-heading">Notes:</strong>
         <ul>
-          <li>Fullname: minimum 3 characters</li>
-          <li>Email: must match a valid format</li>
-          <li>
-            Password: minimum 8 characters, must include uppercase, lowercase,
-            and a number. Strength meter shows Weak → Strong.
-          </li>
+          <li>Fullname ≥ 3 chars</li>
+          <li>Valid email format</li>
+          <li>Password ≥ 8 chars, includes upper, lower & number</li>
         </ul>
       </section>
     </main>
