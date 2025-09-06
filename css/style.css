@@ -175,6 +175,46 @@ footer {
 }
 
 .indicator {
-  font-size: 1.7rem;
+  font-size: 0.8rem;
   margin-right: 0.2rem;
+}
+
+.form-help {
+  color: var(--color-text-muted);
+}
+
+.pw-meter-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 0.2rem 0 0;
+}
+
+.pw-bar {
+  width: 0;
+  height: 100%;
+}
+
+.pw-strength {
+  display: flex;
+  flex-direction: column;
+}
+
+.line-box {
+  width: 100px;
+  height: 8px;
+  border-radius: 110px;
+  border: 2px solid var(--color-text);
+}
+
+.pw-strength-text {
+  color: var(--color-text-muted);
+}
+
+.line {
+  width: 0px;
+  height: 5.5px;
+  background-color: var(--color-text-muted);
+  border-radius: 100px;
+  border: none;
 }

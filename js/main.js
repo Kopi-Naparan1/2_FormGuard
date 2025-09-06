@@ -1,6 +1,4 @@
-"use strict";
 // --- DOM Shortcuts ---
-console.log("yawa");
 const $ = (sel) => document.querySelector(sel);
 // --- Helper to assert element existence ---
 function mustExist(el, name) {
@@ -11,8 +9,8 @@ function mustExist(el, name) {
 // --- Form Validation ---
 function initFormValidation() {
     // Inputs & Button
-    const nameInput = mustExist($("#fullname"), "#fullname");
     const emailInput = mustExist($("#email"), "#email");
+    const nameInput = mustExist($("#fullname"), "#fullname");
     const passwordInput = mustExist($("#password"), "#password");
     const confirmInput = mustExist($("#confirmPassword"), "#confirmPassword");
     const submitBtn = mustExist($("#submitBtn"), "#submitBtn");
@@ -23,15 +21,16 @@ function initFormValidation() {
     const confirmHelp = mustExist($("#confirmHelp"), "#confirmHelp");
     // Status indicators
     const indicators = {
-        name: mustExist($(".nameIndicator"), ".nameIndicator"),
-        email: mustExist($(".emailIndicator"), ".emailIndicator"),
-        password: mustExist($(".passwordIndicator"), ".passwordIndicator"),
-        confirm: mustExist($(".confirmPasswordIndicator"), ".confirmPasswordIndicator"),
+        name: mustExist($(".indicator.nameIndicator"), ".nameIndicator"),
+        email: mustExist($(".indicator.emailIndicator"), ".emailIndicator"),
+        password: mustExist($(".indicator.passwordIndicator"), ".passwordIndicator"),
+        confirm: mustExist($(".indicator.confirmPasswordIndicator"), ".confirmPasswordIndicator"),
     };
     // --- Validators ---
     const validateName = (name) => name.trim().length < 3 ? "Name must be at least 3 letters." : null;
     const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? null : "Invalid email format.";
     const validatePassword = (password) => {
+        const score = calculatePasswordStrength(password);
         if (password.length < 8)
             return "At least 8 characters required.";
         if (!/[A-Z]/.test(password))
@@ -40,19 +39,21 @@ function initFormValidation() {
             return "At least 1 lowercase letter required.";
         if (!/[0-9]/.test(password))
             return "At least 1 number required.";
+        if (score < 50)
+            return "Password too weak. Try adding more variety.";
         return null;
     };
     const validateConfirmPassword = (password, confirm) => password === confirm ? null : "Passwords do not match.";
     // --- UI Feedback ---
     function showFeedback(indicator, help, error) {
         if (error) {
-            indicator.textContent = "❌";
-            indicator.style.color = "red";
+            indicator.innerHTML =
+                '<i class="fa-solid fa-x" style="color: #ffd60a;"></i>';
             help.textContent = error;
         }
         else {
-            indicator.textContent = "✅";
-            indicator.style.color = "green";
+            indicator.innerHTML =
+                '<i class="fa-solid fa-check" style="color: #ffd60a;"></i>';
             help.textContent = "";
         }
     }
@@ -114,8 +115,87 @@ function initFormValidation() {
     showFeedback(indicators.name, nameHelp, validateName(nameInput.value));
     showFeedback(indicators.email, emailHelp, validateEmail(emailInput.value));
     showFeedback(indicators.password, passwordHelp, validatePassword(passwordInput.value));
-    showFeedback(indicators.confirm, confirmHelp, validateConfirmPassword(passwordInput.value, confirmInput.value));
     checkFormValidity();
 }
 initFormValidation();
+// TO ORGANZE
+// --- Strength Meter Helpers ---
+// Calculate password strength (0–100)
+function calculatePasswordStrength(password) {
+    let score = 0;
+    // --- Length (max 50 pts) ---
+    if (password.length >= 8)
+        score += 20;
+    if (password.length >= 12)
+        score += 35;
+    if (password.length >= 16)
+        score += 50;
+    // --- Character variety (max 30 pts) ---
+    if (/[a-z]/.test(password))
+        score += 5;
+    if (/[A-Z]/.test(password))
+        score += 5;
+    if (/[0-9]/.test(password))
+        score += 10;
+    if (/[^a-zA-Z0-9]/.test(password))
+        score += 10;
+    // --- Pattern penalties ---
+    if (/^(.)\1+$/.test(password))
+        score -= 20; // all same char
+    if (/1234|abcd|qwerty/i.test(password))
+        score -= 15; // common sequences
+    if (/password|letmein|admin/i.test(password))
+        score -= 10; // weak words
+    // --- Bonus ---
+    if (password.length >= 20 &&
+        /[a-z]/.test(password) &&
+        /[A-Z]/.test(password) &&
+        /[0-9]/.test(password)) {
+        score += 10;
+    }
+    // Clamp to [0, 100]
+    return Math.max(0, Math.min(100, score));
+}
+// Update UI
+function updateStrengthUI(score, pwLine, pwText) {
+    // Map score → width (max 100px)
+    pwLine.style.width = `${score}px`;
+    if (score < 30) {
+        pwLine.style.backgroundColor = "#ffc40078";
+        pwText.textContent = "Weak";
+    }
+    else if (score < 60) {
+        pwLine.style.backgroundColor = "#ffc400e7";
+        pwText.textContent = "Medium";
+    }
+    else if (score < 80) {
+        pwLine.style.backgroundColor = "#ffc40078";
+        pwText.textContent = "Strong";
+    }
+    else {
+        pwLine.style.backgroundColor = "#ffc40078";
+        pwText.textContent = "Very Strong";
+    }
+}
+// --- DOM hookups ---
+let pwStrength = mustExist($(".pw-strength"), ".pw-strength");
+let pwLine = mustExist($(".line"), ".line");
+let password = mustExist($("#password"), "#password");
+let pwText = mustExist($(".pw-strength-text"), ".pw-strength-text");
+// Hide initially if empty
+if (password.value.length === 0) {
+    pwStrength.style.display = "none";
+}
+// Live updates
+password.addEventListener("input", () => {
+    if (password.value.length === 0) {
+        pwStrength.style.display = "none";
+    }
+    else {
+        pwStrength.style.display = "flex";
+        const score = calculatePasswordStrength(password.value);
+        updateStrengthUI(score, pwLine, pwText);
+    }
+});
+export {};
 //# sourceMappingURL=main.js.map

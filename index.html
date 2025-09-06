@@ -12,6 +12,10 @@
     <!-- CSS resets first, then main styles -->
     <link rel="stylesheet" href="./css/resets.css" />
     <link rel="stylesheet" href="./css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
   </head>
   <body>
     <header>
@@ -97,10 +101,23 @@
 
             <!-- Strength meter -->
 
-            <div class="pw-meter" aria-hidden="true">
-              <div class="pw-bar" id="pwBar"></div>
+            <div class="pw-meter-div" aria-hidden="true">
+              <div class="form-help-div">
+                <p id="passwordHelp" class="form-help" role="alert">xxx</p>
+              </div>
+
+              <div class="pw-strength" id="pwstrength">
+                <p class="pw-strength-text"></p>
+                <div class="line-box">
+                  <div class="line"></div>
+                </div>
+              </div>
+
+              <!-- <div class="tool-tip-box">
+                  
+                  <div class="tool-tip-box"></div>
+                </div> -->
             </div>
-            <p id="passwordHelp" class="form-help" role="alert"></p>
           </div>
 
           <!-- Confirm Password -->
