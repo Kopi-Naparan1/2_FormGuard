@@ -37,15 +37,22 @@ form {
 .form-group {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1.2rem;
+  margin-top: 1.8rem;
   font-size: 0.7rem;
+  position: relative;
+  height: 70px;
 }
 
 .form-group label {
+  position: absolute;
   margin-bottom: 0.3rem;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.7rem;
   color: var(--color-text, #001d3d);
+  top: 10px;
+  left: 13px;
+  opacity: 0.6;
+  transition: all 0.2s ease;
 }
 
 /* ----------------------------------
@@ -54,32 +61,41 @@ form {
 .form-group input {
   color: var(--color-text, #001d3d); /* ✅ fixed: text is readable */
   font-weight: 650;
-  padding: 0.7rem;
+  padding: 0.5rem 1.5rem 0.5rem 0.5rem;
   border: 2px solid var(--color-highlight);
   border-radius: 6px;
   width: 100%;
   font-size: 0.7rem;
+  background-color: var(--color-bg-lighter);
   letter-spacing: 1px;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.form-group input:focus {
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label,
+label {
   outline: none;
-  border-color: var(--color-accent, #0077cc);
+  border-color: var(--color-bg-lightest);
   box-shadow: 0 0 0 3px rgba(0, 119, 204, 0.2);
+  font-size: 0.9rem;
+  top: -35px;
+  left: 1px;
+  color: var(--color-highlight);
+  opacity: 1;
 }
 
 /* ----------------------------------
    Buttons
 ---------------------------------- */
+
 .send-button-class {
   text-align: center;
 }
 
 .send-button {
   display: inline-block;
-  padding: 0.6rem 1.2rem;
-  margin: 1rem auto 0;
+  padding: 0.3rem 1rem;
+  margin: auto;
   background-color: var(--color-bg-lighter);
   color: var(--color-text, #001d3d);
   border: 2px solid var(--color-highlight);
@@ -88,6 +104,7 @@ form {
   letter-spacing: 1px;
   font-weight: 700;
   transition: background-color 0.2s, transform 0.1s;
+  margin-top: 1rem;
 }
 
 .send-button:hover:enabled {
@@ -172,11 +189,22 @@ footer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  position: relative;
+}
+
+.indicator i {
+  transition: color 0.3s ease, transform 0.2s ease;
+  display: inline-block;
 }
 
 .indicator {
+  position: absolute;
   font-size: 0.8rem;
   margin-right: 0.2rem;
+  top: 6px;
+  right: 5px;
+  width: 1.2rem;
+  text-align: center;
 }
 
 .form-help {
@@ -186,8 +214,11 @@ footer {
 .pw-meter-div {
   display: flex;
   flex-direction: row;
+  position: absolute;
   justify-content: space-between;
   margin: 0 0.2rem 0 0;
+  bottom: 80px;
+  right: 0px;
 }
 
 .pw-bar {
@@ -196,8 +227,9 @@ footer {
 }
 
 .pw-strength {
+  align-items: center;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .line-box {

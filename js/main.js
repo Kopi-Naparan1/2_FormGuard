@@ -1,3 +1,4 @@
+"use strict";
 // --- DOM Shortcuts ---
 const $ = (sel) => document.querySelector(sel);
 // --- Helper to assert element existence ---
@@ -27,33 +28,52 @@ function initFormValidation() {
         confirm: mustExist($(".indicator.confirmPasswordIndicator"), ".confirmPasswordIndicator"),
     };
     // --- Validators ---
-    const validateName = (name) => name.trim().length < 3 ? "Name must be at least 3 letters." : null;
-    const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? null : "Invalid email format.";
+    const validateName = (name) => name.trim().length < 3 ? "Too short" : null;
+    const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? null : "Invalid";
     const validatePassword = (password) => {
         const score = calculatePasswordStrength(password);
         if (password.length < 8)
-            return "At least 8 characters required.";
+            return "Too short";
         if (!/[A-Z]/.test(password))
-            return "At least 1 uppercase letter required.";
+            return "Missing uppercase";
         if (!/[a-z]/.test(password))
-            return "At least 1 lowercase letter required.";
+            return "Missing lowercase";
         if (!/[0-9]/.test(password))
-            return "At least 1 number required.";
+            return "Missing number";
         if (score < 50)
-            return "Password too weak. Try adding more variety.";
+            return "";
         return null;
     };
-    const validateConfirmPassword = (password, confirm) => password === confirm ? null : "Passwords do not match.";
+    // --- Password strength & confirm validation ---
+    passwordInput.addEventListener("input", () => {
+        // Strength meter logic
+        if (passwordInput.value.length === 0) {
+            pwStrength.style.display = "none";
+        }
+        else {
+            pwStrength.style.display = "flex";
+            const score = calculatePasswordStrength(passwordInput.value);
+            updateStrengthUI(score, pwLine, pwText);
+        }
+        // Revalidate confirm password
+        showFeedback(indicators.confirm, confirmHelp, validateConfirmPassword(passwordInput.value, confirmInput.value));
+        checkFormValidity();
+    });
+    const validateConfirmPassword = (password, confirm) => password === confirm ? null : "Mismatch";
     // --- UI Feedback ---
     function showFeedback(indicator, help, error) {
+        const icon = indicator.querySelector("i");
+        if (!icon)
+            return;
+        icon.classList.remove("fa-check", "fa-xmark");
         if (error) {
-            indicator.innerHTML =
-                '<i class="fa-solid fa-x" style="color: #ffd60a;"></i>';
+            icon.classList.add("fa-xmark");
+            icon.style.color = "#ffd60a";
             help.textContent = error;
         }
         else {
-            indicator.innerHTML =
-                '<i class="fa-solid fa-check" style="color: #ffd60a;"></i>';
+            icon.classList.add("fa-check");
+            icon.style.color = "#ffd60a";
             help.textContent = "";
         }
     }
@@ -115,6 +135,7 @@ function initFormValidation() {
     showFeedback(indicators.name, nameHelp, validateName(nameInput.value));
     showFeedback(indicators.email, emailHelp, validateEmail(emailInput.value));
     showFeedback(indicators.password, passwordHelp, validatePassword(passwordInput.value));
+    showFeedback(indicators.confirm, confirmHelp, validateConfirmPassword(passwordInput.value, confirmInput.value));
     checkFormValidity();
 }
 initFormValidation();
@@ -162,19 +183,19 @@ function updateStrengthUI(score, pwLine, pwText) {
     pwLine.style.width = `${score}px`;
     if (score < 30) {
         pwLine.style.backgroundColor = "#ffc40078";
-        pwText.textContent = "Weak";
+        pwText.textContent = " ";
     }
     else if (score < 60) {
         pwLine.style.backgroundColor = "#ffc400e7";
-        pwText.textContent = "Medium";
+        pwText.textContent = " ";
     }
     else if (score < 80) {
         pwLine.style.backgroundColor = "#ffc40078";
-        pwText.textContent = "Strong";
+        pwText.textContent = " ";
     }
     else {
         pwLine.style.backgroundColor = "#ffc40078";
-        pwText.textContent = "Very Strong";
+        pwText.textContent = " ";
     }
 }
 // --- DOM hookups ---
@@ -186,16 +207,4 @@ let pwText = mustExist($(".pw-strength-text"), ".pw-strength-text");
 if (password.value.length === 0) {
     pwStrength.style.display = "none";
 }
-// Live updates
-password.addEventListener("input", () => {
-    if (password.value.length === 0) {
-        pwStrength.style.display = "none";
-    }
-    else {
-        pwStrength.style.display = "flex";
-        const score = calculatePasswordStrength(password.value);
-        updateStrengthUI(score, pwLine, pwText);
-    }
-});
-export {};
 //# sourceMappingURL=main.js.map

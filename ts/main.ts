@@ -1,5 +1,3 @@
-import { FILE } from "dns";
-
 // --- DOM Shortcuts ---
 const $ = <T extends HTMLElement = HTMLElement>(sel: string): T | null =>
   document.querySelector<T>(sel);
@@ -49,26 +47,47 @@ function initFormValidation() {
 
   // --- Validators ---
   const validateName = (name: string) =>
-    name.trim().length < 3 ? "Name must be at least 3 letters." : null;
+    name.trim().length < 3 ? "Too short" : null;
 
   const validateEmail = (email: string) =>
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? null : "Invalid email format.";
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? null : "Invalid";
 
   const validatePassword = (password: string) => {
     const score = calculatePasswordStrength(password);
 
-    if (password.length < 8) return "At least 8 characters required.";
-    if (!/[A-Z]/.test(password)) return "At least 1 uppercase letter required.";
-    if (!/[a-z]/.test(password)) return "At least 1 lowercase letter required.";
-    if (!/[0-9]/.test(password)) return "At least 1 number required.";
+    if (password.length < 8) return "Too short";
+    if (!/[A-Z]/.test(password)) return "Missing uppercase";
+    if (!/[a-z]/.test(password)) return "Missing lowercase";
+    if (!/[0-9]/.test(password)) return "Missing number";
 
-    if (score < 50) return "Password too weak. Try adding more variety.";
+    if (score < 50) return "";
 
     return null;
   };
 
+  // --- Password strength & confirm validation ---
+  passwordInput.addEventListener("input", () => {
+    // Strength meter logic
+    if (passwordInput.value.length === 0) {
+      pwStrength.style.display = "none";
+    } else {
+      pwStrength.style.display = "flex";
+      const score = calculatePasswordStrength(passwordInput.value);
+      updateStrengthUI(score, pwLine, pwText);
+    }
+
+    // Revalidate confirm password
+    showFeedback(
+      indicators.confirm,
+      confirmHelp,
+      validateConfirmPassword(passwordInput.value, confirmInput.value)
+    );
+
+    checkFormValidity();
+  });
+
   const validateConfirmPassword = (password: string, confirm: string) =>
-    password === confirm ? null : "Passwords do not match.";
+    password === confirm ? null : "Mismatch";
 
   // --- UI Feedback ---
   function showFeedback(
@@ -76,13 +95,19 @@ function initFormValidation() {
     help: HTMLElement,
     error: string | null
   ) {
+    const icon = indicator.querySelector("i");
+
+    if (!icon) return;
+
+    icon.classList.remove("fa-check", "fa-xmark");
+
     if (error) {
-      indicator.innerHTML =
-        '<i class="fa-solid fa-x" style="color: #ffd60a;"></i>';
+      icon.classList.add("fa-xmark");
+      icon.style.color = "#ffd60a";
       help.textContent = error;
     } else {
-      indicator.innerHTML =
-        '<i class="fa-solid fa-check" style="color: #ffd60a;"></i>';
+      icon.classList.add("fa-check");
+      icon.style.color = "#ffd60a";
       help.textContent = "";
     }
   }
@@ -158,6 +183,11 @@ function initFormValidation() {
     passwordHelp,
     validatePassword(passwordInput.value)
   );
+  showFeedback(
+    indicators.confirm,
+    confirmHelp,
+    validateConfirmPassword(passwordInput.value, confirmInput.value)
+  );
   checkFormValidity();
 }
 
@@ -211,16 +241,16 @@ function updateStrengthUI(
 
   if (score < 30) {
     pwLine.style.backgroundColor = "#ffc40078";
-    pwText.textContent = "Weak";
+    pwText.textContent = " ";
   } else if (score < 60) {
     pwLine.style.backgroundColor = "#ffc400e7";
-    pwText.textContent = "Medium";
+    pwText.textContent = " ";
   } else if (score < 80) {
     pwLine.style.backgroundColor = "#ffc40078";
-    pwText.textContent = "Strong";
+    pwText.textContent = " ";
   } else {
     pwLine.style.backgroundColor = "#ffc40078";
-    pwText.textContent = "Very Strong";
+    pwText.textContent = " ";
   }
 }
 
@@ -237,14 +267,3 @@ let pwText = mustExist(
 if (password.value.length === 0) {
   pwStrength.style.display = "none";
 }
-
-// Live updates
-password.addEventListener("input", () => {
-  if (password.value.length === 0) {
-    pwStrength.style.display = "none";
-  } else {
-    pwStrength.style.display = "flex";
-    const score = calculatePasswordStrength(password.value);
-    updateStrengthUI(score, pwLine, pwText);
-  }
-});
