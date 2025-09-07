@@ -166,6 +166,11 @@ function initFormValidation() {
     });
   }
 
+  submitBtn.addEventListener("click", () => {
+    window.location.href =
+      "https://kopi-naparan1.github.io/1_Nyro-Portfolio-Website/";
+  });
+
   // --- Prevent accidental bypass ---
   const form = mustExist($("#signupForm"), "#signupForm") as HTMLFormElement;
   form.addEventListener("submit", (e) => {
