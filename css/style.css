@@ -199,10 +199,10 @@ footer {
 
 .indicator {
   position: absolute;
-  font-size: 0.8rem;
+  font-size: 0.3rem;
   margin-right: 0.2rem;
-  top: 6px;
-  right: 5px;
+  top: -1px;
+  right: -9px;
   width: 1.2rem;
   text-align: center;
 }
@@ -249,4 +249,42 @@ footer {
   background-color: var(--color-text-muted);
   border-radius: 100px;
   border: none;
+}
+
+.view-password {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  right: 13px;
+  top: 14px;
+  display: block;
+  cursor: pointer;
+}
+.unview-password {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  right: 12px;
+  top: 14.5px;
+  display: none;
+  cursor: pointer;
+}
+
+.view-confirm-password {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  right: 13px;
+  top: 14px;
+  cursor: pointer;
+  display: block;
+}
+.unview-confirm-password {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  right: 12px;
+  top: 14.5px;
+  display: none;
+  cursor: pointer;
 }

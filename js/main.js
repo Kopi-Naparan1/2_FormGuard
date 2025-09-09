@@ -133,6 +133,34 @@ function initFormValidation() {
         if (submitBtn.disabled)
             e.preventDefault();
     });
+    let view_pwd = mustExist($(".view-password"), ".view-password");
+    let unview_pwd = mustExist($(".unview-password"), ".unview-password");
+    let view_confirm_pwd = mustExist($(".view-confirm-password"), ".view-confirm-password");
+    let unview_confirm_pwd = mustExist($(".unview-confirm-password"), ".unview-confirm-password");
+    view_pwd.addEventListener("click", () => {
+        // Hide "view" icon, show "unview" icon
+        view_pwd.style.display = "none";
+        unview_pwd.style.display = "block";
+        // Switch input to plain text
+        passwordInput.type = "text";
+    });
+    unview_pwd.addEventListener("click", () => {
+        // Hide "unview" icon, show "view" icon
+        unview_pwd.style.display = "none";
+        view_pwd.style.display = "block";
+        // Switch input back to password
+        passwordInput.type = "password";
+    });
+    view_confirm_pwd.addEventListener("click", () => {
+        view_confirm_pwd.style.display = "none";
+        unview_confirm_pwd.style.display = "block";
+        confirmInput.type = "text";
+    });
+    unview_confirm_pwd.addEventListener("click", () => {
+        unview_confirm_pwd.style.display = "none";
+        view_confirm_pwd.style.display = "block";
+        confirmInput.type = "password";
+    });
     // --- Initialize ---
     setupRealtimeValidation();
     // Show initial feedback
