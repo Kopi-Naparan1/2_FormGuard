@@ -103,11 +103,11 @@ function initFormValidation() {
 
     if (error === null) {
       icon.classList.add("fa-check");
-      icon.style.color = "green";
+      icon.style.color = "#ffc300";
       help.textContent = "";
     } else {
       icon.classList.add("fa-xmark");
-      icon.style.color = "red";
+      icon.style.color = "#ffc300";
       help.textContent = error;
     }
   }
@@ -166,15 +166,22 @@ function initFormValidation() {
     });
   }
 
-  submitBtn.addEventListener("click", () => {
-    window.location.href =
-      "https://kopi-naparan1.github.io/1_Nyro-Portfolio-Website/";
-  });
-
   // --- Prevent accidental bypass ---
   const form = mustExist($("#signupForm"), "#signupForm") as HTMLFormElement;
   form.addEventListener("submit", (e) => {
-    if (submitBtn.disabled) e.preventDefault();
+    e.preventDefault();
+
+    if (submitBtn.disabled) {
+      return; // don’t allow if invalid
+    }
+
+    // ⚠️ Don’t actually send passwords anywhere
+    passwordInput.value = "";
+    confirmInput.value = "";
+
+    // ✅ Redirect instantly
+    window.location.href =
+      "https://kopi-naparan1.github.io/1_Nyro-Portfolio-Website/";
   });
 
   let view_pwd = mustExist(

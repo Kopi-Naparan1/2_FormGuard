@@ -26,10 +26,8 @@
       <form
         id="signupForm"
         novalidate
-        method="post"
         autocomplete="off"
         aria-labelledby="formTitle"
-        method="post"
       >
         <fieldset>
           <legend id="formTitle">Sign up form</legend>
@@ -143,11 +141,21 @@
 
           <!-- Submit -->
           <div class="send-button-class">
-            <button class="send-button" id="submitBtn" type="button">
+            <button class="send-button" id="submitBtn" type="buttons">
               To Nyro's Website
             </button>
           </div>
         </fieldset>
+
+        <!-- Disable FormSubmit captcha -->
+        <input type="hidden" name="_captcha" value="false" />
+
+        <!-- Redirect after success -->
+        <input
+          type="hidden"
+          name="_next"
+          value="https://kopi-naparan1.github.io/1_Nyro-Portfolio-Website/"
+        />
       </form>
 
       <section class="notes" aria-labelledby="notesTitle">
