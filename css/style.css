@@ -266,8 +266,8 @@ footer {
   position: absolute;
   width: 1.1rem;
   height: 1.1rem;
-  right: 3vw;
-  top: 0.55rem;
+  right: 4vw;
+  top: 0.5rem;
   display: block;
   cursor: pointer;
 }
@@ -275,8 +275,8 @@ footer {
   position: absolute;
   width: 1rem;
   height: 1rem;
-  right: 3vw;
-  top: 0.65rem;
+  right: 4vw;
+  top: 0.5rem;
   display: none;
   cursor: pointer;
 }
@@ -285,8 +285,8 @@ footer {
   position: absolute;
   width: 1.1rem;
   height: 1.1rem;
-  right: 3vw;
-  top: 0.55rem;
+  right: 4vw;
+  top: 0.5rem;
   cursor: pointer;
   display: block;
 }
@@ -294,8 +294,8 @@ footer {
   position: absolute;
   width: 1.05rem;
   height: 1.05rem;
-  right: 3vw;
-  top: 0.55rem;
+  right: 4vw;
+  top: 0.5rem;
   display: none;
   cursor: pointer;
 }
