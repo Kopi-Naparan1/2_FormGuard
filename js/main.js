@@ -71,14 +71,14 @@ function initFormValidation() {
             return;
         icon.classList.remove("fa-check", "fa-xmark");
         if (error === null) {
-            icon.classList.add("fa-xmark");
-            icon.style.color = "#ffd60a";
-            help.textContent = error;
+            icon.classList.add("fa-check");
+            icon.style.color = "green";
+            help.textContent = "";
         }
         else {
-            icon.classList.add("fa-check");
-            icon.style.color = "#ffd60a";
-            help.textContent = "";
+            icon.classList.add("fa-xmark");
+            icon.style.color = "red";
+            help.textContent = error;
         }
     }
     // --- Form validity check ---
@@ -184,9 +184,9 @@ function calculatePasswordStrength(password) {
     if (password.length >= 8)
         score += 20;
     if (password.length >= 12)
-        score += 35;
+        score += 30;
     if (password.length >= 16)
-        score += 50;
+        score += 35;
     // --- Character variety (max 30 pts) ---
     if (/[a-z]/.test(password))
         score += 5;
@@ -216,7 +216,7 @@ function calculatePasswordStrength(password) {
 // Update UI
 function updateStrengthUI(score, pwLine, pwText) {
     // Map score → width (max 100px)
-    pwLine.style.width = `${score}%`;
+    pwLine.style.width = `${score}px`;
     if (score < 30) {
         pwLine.style.backgroundColor = "#ffc40078";
         pwText.textContent = " ";
