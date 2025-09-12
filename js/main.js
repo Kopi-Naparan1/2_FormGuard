@@ -41,7 +41,7 @@ function initFormValidation() {
         if (!/[0-9]/.test(password))
             return "Missing number";
         if (score < 50)
-            return "";
+            return "Password too weak";
         return null;
     };
     // --- Password strength & confirm validation ---
@@ -55,8 +55,12 @@ function initFormValidation() {
             const score = calculatePasswordStrength(passwordInput.value);
             updateStrengthUI(score, pwLine, pwText);
         }
-        // Revalidate confirm password
-        showFeedback(indicators.confirm, confirmHelp, validateConfirmPassword(passwordInput.value, confirmInput.value));
+        // // Revalidate confirm password
+        // showFeedback(
+        //   indicators.confirm,
+        //   confirmHelp,
+        //   validateConfirmPassword(passwordInput.value, confirmInput.value)
+        // );
         checkFormValidity();
     });
     const validateConfirmPassword = (password, confirm) => password === confirm ? null : "Mismatch";
@@ -66,7 +70,7 @@ function initFormValidation() {
         if (!icon)
             return;
         icon.classList.remove("fa-check", "fa-xmark");
-        if (error) {
+        if (error === null) {
             icon.classList.add("fa-xmark");
             icon.style.color = "#ffd60a";
             help.textContent = error;
@@ -212,7 +216,7 @@ function calculatePasswordStrength(password) {
 // Update UI
 function updateStrengthUI(score, pwLine, pwText) {
     // Map score → width (max 100px)
-    pwLine.style.width = `${score}px`;
+    pwLine.style.width = `${score}%`;
     if (score < 30) {
         pwLine.style.backgroundColor = "#ffc40078";
         pwText.textContent = " ";

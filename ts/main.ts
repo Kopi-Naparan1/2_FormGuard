@@ -60,7 +60,7 @@ function initFormValidation() {
     if (!/[a-z]/.test(password)) return "Missing lowercase";
     if (!/[0-9]/.test(password)) return "Missing number";
 
-    if (score < 50) return "";
+    if (score < 50) return "Password too weak";
 
     return null;
   };
@@ -76,12 +76,12 @@ function initFormValidation() {
       updateStrengthUI(score, pwLine, pwText);
     }
 
-    // Revalidate confirm password
-    showFeedback(
-      indicators.confirm,
-      confirmHelp,
-      validateConfirmPassword(passwordInput.value, confirmInput.value)
-    );
+    // // Revalidate confirm password
+    // showFeedback(
+    //   indicators.confirm,
+    //   confirmHelp,
+    //   validateConfirmPassword(passwordInput.value, confirmInput.value)
+    // );
 
     checkFormValidity();
   });
@@ -101,7 +101,7 @@ function initFormValidation() {
 
     icon.classList.remove("fa-check", "fa-xmark");
 
-    if (error) {
+    if (error === null) {
       icon.classList.add("fa-xmark");
       icon.style.color = "#ffd60a";
       help.textContent = error;
@@ -290,7 +290,7 @@ function updateStrengthUI(
   pwText: HTMLElement
 ) {
   // Map score → width (max 100px)
-  pwLine.style.width = `${score}px`;
+  pwLine.style.width = `${score}%`;
 
   if (score < 30) {
     pwLine.style.backgroundColor = "#ffc40078";
