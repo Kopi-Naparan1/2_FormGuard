@@ -188,6 +188,10 @@ footer {
   opacity: 0.4;
 }
 
+#formTitle {
+  margin-bottom: 0.5rem;
+}
+
 /* ----------------------------------
    Labels & Indicators
 ---------------------------------- */
@@ -205,9 +209,9 @@ footer {
 
 .indicator {
   position: absolute;
-  font-size: 0.3rem;
+  font-size: 16px;
   margin-right: 0.2em;
-  top: -0.2vh;
+  top: -0.1vh;
   right: 0.2em;
   width: -1.2em;
   height: -2em;
